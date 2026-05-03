@@ -1,0 +1,46 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+*.egg
+
+# Virtual environments
+myenv/
+venv/
+env/
+.venv/
+
+# Distribution / packaging
+dist/
+build/
+*.whl
+
+# Scraped / generated data
+stocks.json
+
+# Secrets / credentials
+auth/*.json
+.env
+.env.*
+*.key
+*.pem
+
+# OS files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# IDE
+.vscode/
+.idea/
+*.sublime-*
+
+# Playwright browsers
+playwright-browsers/
+
+# Docs / misc
+Notes.txt
+docs/*.png

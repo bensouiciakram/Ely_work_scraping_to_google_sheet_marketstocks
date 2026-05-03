@@ -1,0 +1,52 @@
+[
+  [
+    "NVDA",
+    "NVIDIA Corporation",
+    "NasdaqGS - Nasdaq Real Time Price • USD",
+    "145.48",
+    "+1.36",
+    "0.94",
+    "https://finance.yahoo.com/quote/NVDA/",
+    "most-active"
+  ],
+  [
+    "TSLA",
+    "Tesla, Inc.",
+    "NasdaqGS - Delayed Quote • USD",
+    "322.05",
+    "+5.77",
+    "1.82",
+    "https://finance.yahoo.com/quote/TSLA/",
+    "most-active"
+  ],
+  [
+    "LCID",
+    "Lucid Group, Inc.",
+    "NasdaqGS - Delayed Quote • USD",
+    "2.2200",
+    "+0.0700",
+    "3.26",
+    "https://finance.yahoo.com/quote/LCID/",
+    "most-active"
+  ],
+  [
+    "INTC",
+    "Intel Corporation",
+    "NasdaqGS - Delayed Quote • USD",
+    "21.49",
+    "+0.69",
+    "3.32",
+    "https://finance.yahoo.com/quote/INTC/",
+    "most-active"
+  ],
+  [
+    "F",
+    "Ford Motor Company",
+    "NYSE - Delayed Quote • USD",
+    "10.43",
+    "+0.01",
+    "0.10",
+    "https://finance.yahoo.com/quote/F/",
+    "most-active"
+  ]
+]
