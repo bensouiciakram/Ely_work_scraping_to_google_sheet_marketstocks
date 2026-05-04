@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup
 from parsel import Selector 
+import yfinance as yf
 import time
 from helpers.params import YAHOO_SCREENER_BASE_URL, YAHOO_SITES_BASE_URL, YAHOO_FINANCE_INDEX_URL
 from helpers.sheet import SheetManipulator
@@ -9,25 +10,23 @@ class YahooFinance:
     _index_cache = {}
 
     @staticmethod
-    def get_index_and_link(session, stock_symbol, retries=1, delay=5):
-        url = YAHOO_FINANCE_INDEX_URL.format(stock_symbol)
+    def get_index_and_link(stock_symbol, retries=1, delay=5):
+        url = f"https://finance.yahoo.com/quote/{stock_symbol}/"
         for _ in range(retries):
             try:
-                response = session.get(url, timeout=100)
-                if response.status_code == 200:
-                    sel = Selector(text=response.text)
-                    index = sel.xpath('string(//span[contains(@class,"exchange")])').get()
-                    return index.strip(), url
-                time.sleep(delay)
+                ticker = yf.Ticker(stock_symbol)
+                info = ticker.info
+                index = info.get('fullExchangeName', '')
+                return index, url
             except Exception as _:
                 time.sleep(delay)
         return "", url
     
     @staticmethod
-    def get_index_cached(session, stock_symbol):
+    def get_index_cached(stock_symbol):
         """Get index from cache or fetch if not cached."""
         if stock_symbol not in YahooFinance._index_cache:
-            index, _ = YahooFinance.get_index_and_link(session, stock_symbol)
+            index, _ = YahooFinance.get_index_and_link(stock_symbol)
             YahooFinance._index_cache[stock_symbol] = index
         return YahooFinance._index_cache[stock_symbol]
     
@@ -61,7 +60,7 @@ class YahooFinance:
                         p_e_ratio = td_texts[10] if len(td_texts) >= 11 else ""
                         p_e_ratio = "=" + p_e_ratio if "+" in p_e_ratio else p_e_ratio
                         # Exchange (cached)
-                        index = YahooFinance.get_index_cached(session=session, stock_symbol=stock)
+                        index = YahooFinance.get_index_cached(stock_symbol=stock)
                         # Link
                         link = f"https://finance.yahoo.com/quote/{stock}/"
                         # Append all column value
@@ -103,7 +102,7 @@ class YahooFinance:
                         p_e_ratio = td_texts[9] if len(td_texts) >= 10 else ""
                         p_e_ratio = "=" + p_e_ratio if "+" in p_e_ratio else p_e_ratio
                         # Exchange (cached)
-                        index = YahooFinance.get_index_cached(session=session, stock_symbol=stock)
+                        index = YahooFinance.get_index_cached(stock_symbol=stock)
                         # Link
                         link = f"https://finance.yahoo.com/quote/{stock}/"
                         # Append all column value
