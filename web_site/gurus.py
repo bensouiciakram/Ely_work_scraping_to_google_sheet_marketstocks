@@ -18,7 +18,7 @@ class Gurus:
             try:
                 # with sync_playwright() as p:
                 with Stealth().use_sync(sync_playwright()) as p : 
-                    browser = p.chromium.launch(headless=False)
+                    browser = p.chromium.launch(headless=True)
                     context = browser.new_context(user_agent=HEADERS["User-Agent"])
                     page = context.new_page()
                     page.goto(url)
