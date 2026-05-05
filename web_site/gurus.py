@@ -20,6 +20,7 @@ class Gurus:
                 with Stealth().use_sync(sync_playwright()) as p : 
                     browser = p.chromium.launch(headless=True)
                     context = browser.new_context(user_agent=HEADERS["User-Agent"])
+                    context.set_default_navigation_timeout(60000)
                     page = context.new_page()
                     page.goto(url)
                     page.wait_for_timeout(5000)

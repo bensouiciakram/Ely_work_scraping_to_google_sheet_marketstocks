@@ -3,6 +3,7 @@
 
 # CLIENT GOOGLE SHEET URL
 SHEET_URL = "https://docs.google.com/spreadsheets/d/1nWLVF4DKaGE-IUOkRjyLG3Tr6af1oa7ZeM9WoYMoHKU/edit?gid=249601463#gid=249601463"
+# SHEET_URL = "https://docs.google.com/spreadsheets/d/1A8SfGTTAmEnwo_lpgyknNa0bDjmohvf1ko0eIXu2bgM/edit?gid=0#gid=0"
 SHEET_NAME = "Stock Price & DCF Websites"
 # WEB SITE URL FOR SCRAPING
 YAHOO_SCREENER_BASE_URL = "https://finance.yahoo.com/research-hub/screener/undervalued_growth_stocks/?start={}&count={}"

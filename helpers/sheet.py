@@ -39,7 +39,7 @@ class SheetManipulator():
     @staticmethod
     def get_all_stocks(spreadsheet_id: str, service) -> dict[str, any]:
         # Read data from sheet
-        range_name = "'{SHEET_NAME}'!A:R"
+        range_name = f"'{SHEET_NAME}'!A:R"
         sheet = service.spreadsheets().values().get(
             spreadsheetId=spreadsheet_id,
             range=range_name
