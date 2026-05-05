@@ -8,8 +8,22 @@ from helpers.params import HEADERS
 
 from parsel import Selector 
 from playwright_stealth import Stealth
+from playwright.sync_api import TimeoutError,Page
+import logging 
 
 class Gurus:
+
+    @staticmethod
+    def smart_reload(page):
+        for _ in range(5): 
+            try :
+                page.wait_for_selector('//div[contains(@class,"dcf-table-row")]',timeout=5000)
+            except TimeoutError: 
+                logging.info('Page didn\'t load properly')
+                page.reload()
+                continue 
+            return 
+
     @staticmethod
     def scrape_dcf_pct(stock_symbol, retries=2, delay=5):
         """Scrape the page, handling errors and crashes."""
@@ -24,7 +38,7 @@ class Gurus:
                     page = context.new_page()
                     page.goto(url)
                     page.wait_for_timeout(5000)
-                    page.wait_for_selector('//div[contains(@class,"dcf-table-row")]')
+                    Gurus.smart_reload(page)
                     selector = Selector(text=page.content())
 
                     stock_details = []
