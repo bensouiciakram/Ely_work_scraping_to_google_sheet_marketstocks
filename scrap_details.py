@@ -32,12 +32,12 @@ if __name__ == "__main__":
         credentials, service = SheetManipulator.get_credentials_and_service()
         spreadsheet_id = SheetManipulator.get_spreadsheet_id(SHEET_URL)
         
-        # Clear existing sheet data (keep header row)
+        # Clear existing sheet data (keep header row, avoid protected columns R-U)
         service.spreadsheets().values().clear(
             spreadsheetId=spreadsheet_id,
-            range=f"'{SHEET_NAME}'!A2:Z"
+            range=f"'{SHEET_NAME}'!A2:Q"
         ).execute()
-        logging.info("Cleared existing sheet data (kept header row)")
+        logging.info("Cleared existing sheet data A2:Q (kept header row and protected columns R-U)")
         current_beginning_of_stock_index = 0
         # Append value_investing / gurus scraping
         for index, stock in enumerate(all_stocks):
@@ -70,14 +70,29 @@ if __name__ == "__main__":
                     # Append the source at the end
                     all_stocks[index].append(source)
                     
-                # Insert per 100 row
-                if (index + 1) % 5 == 0 or index == len(all_stocks) - 1:
+# Insert per 2 row
+                if (index + 1) % 2 == 0 or index == len(all_stocks) - 1:
                     # Remove empty stock_symbol
                     part_stock = [stock for i, stock in enumerate(all_stocks) if i not in remove_index and current_beginning_of_stock_index <= i <= index]
-                    current_beginning_of_stock_index += 5
-                    # Append rows to sheet
-                    SheetManipulator.append_stock(spreadsheet_id=spreadsheet_id, new_rows=part_stock, service=service)
-                    logging.info(f"Appended {len(part_stock)} rows to sheet")
+                    # Calculate starting row before increment (row 2 for first batch, then +2 each batch)
+                    start_row = current_beginning_of_stock_index + 2
+                    current_beginning_of_stock_index += 2
+                    # Trim to columns A-Q (indices 0-16) to avoid protected columns R-U
+                    part_stock_trimmed = [stock[:17] for stock in part_stock]
+                    
+                    # Write directly to cells instead of appending
+                    body = {
+                        "range": f"'{SHEET_NAME}'!A{start_row}",
+                        "majorDimension": "ROWS",
+                        "values": part_stock_trimmed
+                    }
+                    service.spreadsheets().values().update(
+                        spreadsheetId=spreadsheet_id,
+                        range=f"'{SHEET_NAME}'!A{start_row}",
+                        valueInputOption="USER_ENTERED",
+                        body=body
+                    ).execute()
+                    logging.info(f"Updated {len(part_stock_trimmed)} rows starting at row {start_row} (columns A-Q)")
             except Exception as e:
                 print(f"{e}")
                 logging.error(f"Error: {e}")
