@@ -33,10 +33,10 @@ if __name__ == "__main__":
         spreadsheet_id = SheetManipulator.get_spreadsheet_id(SHEET_URL)
         
         # Clear existing sheet data (keep header row, avoid protected columns R-U)
-        # service.spreadsheets().values().clear(
-        #     spreadsheetId=spreadsheet_id,
-        #     range=f"'{SHEET_NAME}'!A2:Q"
-        # ).execute()
+        service.spreadsheets().values().clear(
+            spreadsheetId=spreadsheet_id,
+            range=f"'{SHEET_NAME}'!A2:Q"
+        ).execute()
         # logging.info("Cleared existing sheet data A2:Q (kept header row and protected columns R-U)")
         current_beginning_of_stock_index = 0
         # Append value_investing / gurus scraping
