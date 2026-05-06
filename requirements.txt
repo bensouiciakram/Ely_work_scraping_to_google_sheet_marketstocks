@@ -10,3 +10,8 @@ playwright
 playwright-stealth
 parsel
 yfinance
+DrissionPage
+pytesseract
+Pillow
+pydub
+SpeechRecognition
