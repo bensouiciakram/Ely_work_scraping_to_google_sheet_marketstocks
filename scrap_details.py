@@ -33,11 +33,11 @@ if __name__ == "__main__":
         spreadsheet_id = SheetManipulator.get_spreadsheet_id(SHEET_URL)
         
         # Clear existing sheet data (keep header row, avoid protected columns R-U)
-        service.spreadsheets().values().clear(
-            spreadsheetId=spreadsheet_id,
-            range=f"'{SHEET_NAME}'!A2:Q"
-        ).execute()
-        logging.info("Cleared existing sheet data A2:Q (kept header row and protected columns R-U)")
+        # service.spreadsheets().values().clear(
+        #     spreadsheetId=spreadsheet_id,
+        #     range=f"'{SHEET_NAME}'!A2:Q"
+        # ).execute()
+        # logging.info("Cleared existing sheet data A2:Q (kept header row and protected columns R-U)")
         current_beginning_of_stock_index = 0
         # Append value_investing / gurus scraping
         for index, stock in enumerate(all_stocks):
@@ -50,7 +50,8 @@ if __name__ == "__main__":
                     print(f"{index + 1}\t: Scrap details {index + 1} / {stock_symbol} ...", end='\r', flush=True)
                     logging.info(f"Scraping {stock_symbol}...")
                     # Scrap info on other website
-                    gurus_value = Gurus.scrape_dcf_pct(stock_symbol=stock_symbol)
+                    gurus_value = Gurus.scrape_via_google(stock_symbol=stock_symbol)
+                    logging.info(f"Gurus extracted: {gurus_value}")
                     value_investing_value = ValueInvesting.scrape_dcf_pct(stock_symbol=stock_symbol)
                     alpha_spread_value = AlphaSpread.scrape_dcf_pct(stock_symbol=stock_symbol)
                     logging.info(f"  Gurus: {gurus_value}, ValueInvesting: {value_investing_value}, AlphaSpread: {alpha_spread_value}")
