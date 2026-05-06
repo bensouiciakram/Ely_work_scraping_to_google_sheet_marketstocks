@@ -27,8 +27,8 @@ class Gurus:
         options.set_argument('--disable-gpu')
         options.set_argument('--remote-debugging-port=56221')
         options.set_argument('--user-agent=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36')
-        #if headless:
-            #options.set_argument('--headless=new')
+        if headless:
+            options.set_argument('--headless=new')
         driver = ChromiumPage(addr_or_opts=options)
         return driver
 
